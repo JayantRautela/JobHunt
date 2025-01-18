@@ -2,24 +2,24 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
     fullname: {
-        type: Stinrg,
+        type: String,
         required: true
     },
     email: {
-        type: Stinrg,
+        type: String,
         required: true,
         unique: true
     },
     phoneNumber: {
-        type: Stinrg,
+        type: String,
         required: true
     },
     password: {
-        type: Stinrg,
+        type: String,
         required: true
     },
     role: {
-        type: Stinrg,
+        type: String,
         enum: ['student', 'recruiter'],
         required: true,
     },
