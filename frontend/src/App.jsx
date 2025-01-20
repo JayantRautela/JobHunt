@@ -1,17 +1,12 @@
-import { Button } from "@/components/ui/button"
+import Navbar from "./components/shared/Navbar"
 
 
 function App() {
 
-  const btnClick = () => {
-    alert("Wlecome to JobHunt!!");
-  };
 
   return (
     <>
-      <div className="flex justify-center items-center">
-        <Button onClick={btnClick}>Click Me</Button>
-      </div>
+      <Navbar />
     </>
   )
 }
