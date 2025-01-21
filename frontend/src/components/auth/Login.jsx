@@ -5,9 +5,12 @@ import { RadioGroup } from "../ui/radio-group";
 import { Button } from "../ui/button";
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { USER_API_END_POINT } from "../../utils/constant";
 import axios from 'axios';
 import { toast } from "sonner";
+import { setLoading } from '../../redux/authSlice';
+import { Loader2 } from "lucide-react";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -16,7 +19,9 @@ const Login = () => {
     role: "",
   });
 
+  const { loading } = useSelector(store => store.auth)
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const changeEventHandler = (e) => {
     setInput({...input, [e.target.name]:e.target.value});
@@ -25,6 +30,7 @@ const Login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
+      dispatch(setLoading(true));
       const response = await axios.post(`${USER_API_END_POINT}/login`, input, {
         header: {
           "Content-Type": "application/json"
@@ -38,6 +44,8 @@ const Login = () => {
     } catch (error) {
       console.error(error);
       toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 
@@ -92,7 +100,9 @@ const Login = () => {
               </div>
             </RadioGroup>
           </div>
-          <Button tpye="submit" className='w-full my-4'>Login</Button>
+          {
+            loading ? (<Button className='w-full my-4'><Loader2 className="mr-2 h-4 w-4 animate-spin"/> Please Wait</Button>) : <Button type="submit" className='w-full my-4'>Login</Button>
+          }
           <span className="text-sm">Don&apos;t Have an Account? <Link to="/signup">Signup</Link></span>
         </form>
       </div>
