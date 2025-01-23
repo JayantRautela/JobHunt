@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import {
   Popover,
@@ -8,9 +8,10 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { LogOut, User2 } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const user = false;
+  const { user } = useSelector((store) => store.auth);
 
   return (
     <div className="bg-white">
@@ -22,9 +23,15 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-12">
           <ul className="flex font-medium items-center gap-5">
-            <li><Link to='/'>Home</Link></li>
-            <li><Link to='/jobs'>Jobs</Link></li>
-            <li><Link to='/browseJobs'>Browse</Link></li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/jobs">Jobs</Link>
+            </li>
+            <li>
+              <Link to="/browseJobs">Browse</Link>
+            </li>
           </ul>
           {!user ? (
             <div className="flex items-center gap-2">
