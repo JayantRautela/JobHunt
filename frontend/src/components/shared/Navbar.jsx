@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 import {
   Popover,
   PopoverContent,
@@ -11,7 +10,8 @@ import { LogOut, User2 } from "lucide-react";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { user } = useSelector((store) => store.auth);
+  // const { user } = useSelector((store) => store.auth);
+  const user = true;
 
   return (
     <div className="bg-white">

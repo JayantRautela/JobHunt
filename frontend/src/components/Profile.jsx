@@ -5,10 +5,13 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Label } from './ui/label';
 import AppliedJobTable from './AppliedJobTable';
+import { useState } from 'react';
+import UpdateProfileDialog from './UpdateProfileDialog'
 
 const skills = ['html', 'css', 'reactjs', 'js', 'nodejs'];
 
 const Profile = () => {
+  const [open, setOpen] = useState(false);
   const isResume = true;
   return (
     <>
@@ -24,7 +27,7 @@ const Profile = () => {
             <p>Lorem ipsum dolor sit amet.</p>
           </div>
         </div>
-        <Button className='text-right' variant='outline'><Pen /></Button>
+        <Button onClick={() => setOpen(true)} className='text-right' variant='outline'><Pen /></Button>
         </div>
         <div>
           <div className="flex items-center gap-3 my-2">
@@ -55,6 +58,7 @@ const Profile = () => {
         <h1 className='font-bold text-lg my-5'>All Applied Job</h1>
         <AppliedJobTable/>
       </div>
+      <UpdateProfileDialog open={open} setOpen={setOpen}/>
     </>
   )
 }
