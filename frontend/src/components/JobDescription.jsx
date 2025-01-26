@@ -1,26 +1,53 @@
+import { useParams } from "react-router-dom";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import axios from "axios";
+import { JOB_API_END_POINT } from "../utils/constant";
+import { setSingleJob } from "../redux/jobSlice";
 
 const JobDescription = () => {
   const isApplied = false;
+  const params = useParams();
+  const jobId = params.id;
+  const { singleJob } = useSelector((store) => store.job);
+  const { user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchSingleJob = async () => {
+      try {
+        const response = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
+          withCredentials: true,
+        });
+        if (response.data.success) {
+          dispatch(setSingleJob(response.data.jobs));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchSingleJob();
+  }, [jobId, dispatch, user._id]);
   return (
     <div className="max-w-7xl mx-auto my-10">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-bold text-xl">title</h1>
+          <h1 className="font-bold text-xl">{singleJob?.title}</h1>
           <div className="flex items-center gap-2 mt-4">
             <Badge className={"text-blue-700 font-bold"} variant="ghost">
-              12 Positions
+              {singleJob?.postion} Positions
             </Badge>
             <Badge className={"text-[#F83002] font-bold"} variant="ghost">
-              Full Stack Developer
+              {singleJob?.jobType}
             </Badge>
             <Badge className={"text-[#7209b7] font-bold"} variant="ghost">
-              12 LPA
+              {singleJob?.salary}LPA
             </Badge>
           </div>
         </div>
         <Button
+          onClick={isApplied}
           disabled={isApplied}
           className={`rounded-lg ${
             isApplied
@@ -36,26 +63,46 @@ const JobDescription = () => {
       </h1>
       <div className="my-4">
         <h1 className="font-bold my-1">
-          Role: <span className="pl-4 font-normal text-gray-800">Full Stack Developer</span>
+          Role:{" "}
+          <span className="pl-4 font-normal text-gray-800">
+            {singleJob?.title}
+          </span>
         </h1>
         <h1 className="font-bold my-1">
-          Location: <span className="pl-4 font-normal text-gray-800">Mumbai</span>
+          Location:{" "}
+          <span className="pl-4 font-normal text-gray-800">
+            {singleJob?.location}
+          </span>
         </h1>
         <h1 className="font-bold my-1">
-          Description: <span className="pl-4 font-normal text-gray-800">Lorem ipsum dolor sit amet.</span>
+          Description:{" "}
+          <span className="pl-4 font-normal text-gray-800">
+            {singleJob?.description}
+          </span>
         </h1>
         <h1 className="font-bold my-1">
-          Experience:<span className="pl-4 font-normal text-gray-800">1 yrs</span>
+          Experience:{" "}
+          <span className="pl-4 font-normal text-gray-800">
+            {singleJob?.experience} yrs
+          </span>
         </h1>
         <h1 className="font-bold my-1">
-          Salary: <span className="pl-4 font-normal text-gray-800">12 LPA</span>
+          Salary:{" "}
+          <span className="pl-4 font-normal text-gray-800">
+            {singleJob?.salary}LPA
+          </span>
         </h1>
         <h1 className="font-bold my-1">
           Total Applicants:{" "}
-          <span className="pl-4 font-normal text-gray-800"></span>
+          <span className="pl-4 font-normal text-gray-800">
+            {singleJob?.applications?.length}
+          </span>
         </h1>
         <h1 className="font-bold my-1">
-          Posted Date: <span className="pl-4 font-normal text-gray-800"></span>
+          Posted Date:{" "}
+          <span className="pl-4 font-normal text-gray-800">
+            {singleJob?.createdAt.split("T")[0]}
+          </span>
         </h1>
       </div>
     </div>
