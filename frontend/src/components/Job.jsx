@@ -9,11 +9,17 @@ const Job = ({ job }) => {
 
   const navigate = useNavigate();
   const jobId = job?._id;
+  const daysAgoApplied = (mongodbtime) => {
+    const createdAt = new Date(mongodbtime);
+    const currentTime = new Date();
+    const timeDifference = currentTime - createdAt;
+    return Math.floor(timeDifference/(100 * 24 * 60 * 60));
+  }
 
   return (
     <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
       <div className='flex items-center justify-between'>
-        <p className='text-sm text-gray-500'>2 days ago</p>
+        <p className='text-sm text-gray-500'>{daysAgoApplied(job?.createdAt) === 0 ? "Today" : `${daysAgoApplied(job?.createdAt)} Days Ago`}</p>
         <Button variant='outline' className="rounded-full" size='icon'><Bookmark/></Button> 
       </div>
       <div className='flex items-center gap-2 my-2'>
@@ -53,7 +59,8 @@ Job.propTypes = {
     description: PropTypes.string,
     position: PropTypes.string,
     jobType: PropTypes.string,
-    salary: PropTypes.number
+    salary: PropTypes.number,
+    createdAt: PropTypes.string
   })
 };
 
