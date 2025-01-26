@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 const Profile = () => {
   const { user } = useSelector(store => store.auth);
   const [open, setOpen] = useState(false);
-  const isResume = true;
+  const isResume = user.profile.resume;
   return (
     <>
       <Navbar />
@@ -50,7 +50,7 @@ const Profile = () => {
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label className="text-md font-bold">Resume</Label>
           {
-            isResume ? <a target='_blank' className='text-blue-500 w-full hover:underline cursor-pointer' href='https://youtube.com'>Resume</a> : <span>Resume Not Available</span>
+            isResume ? <a target='_blank' className='text-blue-500 w-full hover:underline cursor-pointer' href={user?.profile?.resume}>{user.profile?.resumeOriginalname}</a> : <span>Resume Not Available</span>
           }
         </div>
       </div>
