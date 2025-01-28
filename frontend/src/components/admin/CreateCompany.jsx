@@ -6,11 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'sonner';
 import { COMPANY_API_END_POINT } from "../../utils/constant";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import axios from 'axios';
+import { setSingleCompany } from "../../redux/companySlice";
 
 const CreateCompany = () => {
   const navigate = useNavigate();
   const [companyName, setCompanyName] = useState();
+    const dispatch = useDispatch();
 
   const registerCompany = async () => {
     try {
@@ -21,6 +24,7 @@ const CreateCompany = () => {
         withCredentials:true
     });
     if(response?.data?.success){
+        dispatch(setSingleCompany(response.data.company));
         toast.success(response.data.message);
         const companyId = response?.data?.company?._id;
         navigate(`/admin/companies/${companyId}`);
