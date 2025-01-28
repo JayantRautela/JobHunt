@@ -2,8 +2,10 @@ import Navbar from "../shared/Navbar";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import CompaniesTable from "./ComapniesTable";
+import { useNavigate } from "react-router-dom";
 
 const Companies = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <Navbar />
@@ -11,9 +13,9 @@ const Companies = () => {
         <div className="flex items-center justify-between">
           <Input
             className='w-fit'
-            placeholder='FIlter by name'
+            placeholder='Filter by name'
           />
-          <Button>New Company</Button>
+          <Button onClick={() => navigate('/admin/companies/create')}>New Company</Button>
         </div>
         <CompaniesTable />
       </div>
